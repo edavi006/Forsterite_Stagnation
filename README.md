@@ -1,2 +1,3 @@
-# Forsterite_Stagnation
- Repository of all data and calculations required for the Stagnation paper
+Collection of scripts and data files to recreate calculations in the paper "Temperature and Density on the Forsterite Liquid-Vapor Phase Boundary"
+
+https://zenodo.org/badge/latestdoi/1111111111
