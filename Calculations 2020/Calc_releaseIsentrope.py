@@ -114,7 +114,7 @@ D_mean=4928.94895961
 E_mean=1195.83314527
 #######Make MC Arrays
 size = 100
-steps = 10000
+steps = 1000
 
 T_ar = sp.zeros((size,steps))
 rho_ar= sp.zeros((size,steps))
@@ -161,7 +161,7 @@ while j < steps:
     T_ar[-1,j] = T_shock
     for i in range(size-2,-1,-1):
         #temperautre only depends on gamma and rho ln(T) = gamma * d ln(rho)
-        if rho_ar[i,j] >= 2597:
+        if rho_ar[i,j] >= 1000:
             T_ar[i,j]=np.exp(gamma[i,j] * (np.log(rho_ar[i,j]) - np.log(rho_ar[i+1,j]))
                         + np.log(T_ar[i+1,j]))
         else:

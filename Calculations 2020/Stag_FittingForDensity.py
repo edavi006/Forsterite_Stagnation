@@ -348,6 +348,7 @@ print('==========LINE BREAK===========')
 Pmc_fo=sp.zeros((size,steps))#mc
 P_fo=sp.zeros(size)#
 Pe_fo=sp.zeros(size)#
+V_fly=sp.zeros(steps)#
 
 ##for i in range(steps):
 ##    bmat=np.matmul(sp.rand(1,2), lmat)
@@ -363,25 +364,30 @@ Pe_fo=sp.zeros(size)#
 ##    Pmc_fo[:,j]=impedance(up,c_temp,s_temp)
 for i in range(steps):
     bmat=np.matmul(sp.rand(1,2), lmat)
-    s_temp=S_f +bmat[0,0]
-    c_temp=C_f +bmat[0,1]
-    V_fly=Vf + Vf_e*sp.randn()
+    V_fly[i]=Vf + Vf_e*sp.randn()
     Rho_l = rho_f + rho_fe*sp.randn()
-    if s_temp < 0:
-        bmat=np.matmul(sp.rand(1,2), lmat)
-        s_temp=S_f +bmat[0,0]
-        c_temp=C_f +bmat[0,1]
-    elif c_temp < 0:
-        bmat=np.matmul(sp.rand(1,2), lmat)
-        s_temp=S_f +bmat[0,0]
-        c_temp=C_f +bmat[0,1]
+##    if s_temp < 0:
+##        bmat=np.matmul(sp.rand(1,2), lmat)
+##        s_temp=S_f +bmat[0,0]
+##        c_temp=C_f +bmat[0,1]
+##    elif c_temp < 0:
+##        bmat=np.matmul(sp.rand(1,2), lmat)
+##        s_temp=S_f +bmat[0,0]
+##        c_temp=C_f +bmat[0,1]
     
-    Pmc_fo[:,i]=(Rho_l *(c_temp + s_temp*(up))*(up))*(10**6)
+    Pmc_fo[:,i]=(rho_L[i] *(C_mc[i] + S_mc[i]*(up))*(up))*(10**6)
+
 
 
 
 P_fo = np.median(Pmc_fo[:,:],axis=1)*(10**-9) #and make GPa
-Pe_fo= np.std(Pmc_fo[:,:],axis=1)*(10**-9) #and make GPa
+P_sort = np.sort(Pmc_fo[:,:],axis=1)*(10**-9)
+Pe_fo_high = P_sort[:,int(.83*steps)]
+Pe_fo_low = P_sort[:,int(.17*steps)]
+
+
+Pe_fo= np.std(Pmc_fo[:,:],1)*(10**-9) #and make GPa
+V_fagain = np.median(V_fly)
     
 #P-up
 
@@ -402,7 +408,7 @@ if plots == "yes":
     plt.fill_between(up, PH_tpx-PHe_tpx, PH_tpx+PHe_tpx, alpha=0.3, color='blue')
     #Plot Initial Driver shock Hugoniot (not reflected)
     plt.plot(Vf-up,P_fo,color='black',label='Forsterite Liquid Hugoniot')
-    plt.fill_between(Vf-up, P_fo-Pe_fo, P_fo+Pe_fo, alpha=0.3, color='black')
+    plt.fill_between(Vf-up, Pe_fo_low, Pe_fo_high, alpha=0.3, color='black')
     #plt.fill_betweenx(P_fo, Vf-up - Vf_e, Vf-up+Vf_e,alpha=0.3, color='black')
 
 
