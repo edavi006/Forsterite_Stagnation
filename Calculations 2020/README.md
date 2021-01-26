@@ -13,7 +13,7 @@ the flyer as described in the main text. Time to run is on order 10s of seconds.
 isentrope from the shock state to predict temperature at a given density. This is a useful script to probe
 what the L-V dome temperature might be.
 
-The python notebook "L-V_Dome_DepressedTCalc.ipynb" calculates the apparant temperature of the liquid-vapor 
+The python notebook "L-V_Dome_DepressedTCalc.ipynb" calculates the apparent temperature of the liquid-vapor 
 phase boundary, based on optical depth calculations described in the main text.
 
 "FittingS_and_C.py" Fits S and C_0 to try and determine linear trends. The degree of uncertainty here does
